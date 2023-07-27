@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.controller.dto.DoctorRecordDataDTO;
 
-@Table(name="doctors")
-@Entity(name="Doctors")
+@Table(name = "doctors")
+@Entity(name = "Doctors")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class Doctor {
     private Long id;
     private String name;
     private String email;
+    private String phone;
     private String crm;
     @Enumerated(EnumType.STRING)
     private SpecialityEnum speciality;
@@ -27,4 +29,14 @@ public class Doctor {
     // o endereço faz parte da tabela de Médico.
     @Embedded
     private Address address;
+
+    public Doctor(DoctorRecordDataDTO data) {
+        this.name = data.name();
+        this.email = data.email();
+        this.phone=data.phone();
+        this.crm = data.crm();
+        this.address = new Address(data.address());
+        this.crm = data.crm();
+        this.speciality = data.speciality();
+    }
 }
