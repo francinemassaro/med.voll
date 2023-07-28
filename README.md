@@ -13,4 +13,3 @@ Trello: https://trello.com/invite/b/flvDwvEJ/ATTI8ccf724026b01d58482d77470c1f00e
 ###### delete from flyway_schema_history where success = 0;
 
 ###### drop database vollmed_api;
-###### create database vollmed_api;
