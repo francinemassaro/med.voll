@@ -25,6 +25,7 @@ public class Doctor {
     private String crm;
     @Enumerated(EnumType.STRING)
     private SpecialityEnum speciality;
+    private boolean active;
 
     //Embedded para não precisar criar uma tabela no banco de dados e criar um relacionamento. Ele já entende que
     // o endereço faz parte da tabela de Médico.
@@ -32,6 +33,7 @@ public class Doctor {
     private Address address;
 
     public Doctor(DoctorRecordDataDTO data) {
+        this.active=true;
         this.name = data.name();
         this.email = data.email();
         this.phone=data.phone();
@@ -54,5 +56,9 @@ public class Doctor {
             this.address.updateAddress(data.address());
         }
 
+    }
+
+    public void delete() {
+        this.active=false;
     }
 }
