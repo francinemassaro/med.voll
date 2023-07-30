@@ -3,6 +3,7 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.controller.dto.DataPatientsListDTO;
 import med.voll.api.controller.dto.PatientRecordDataDTO;
+import med.voll.api.controller.dto.PatientUpdateData;
 import med.voll.api.domain.Patient;
 import med.voll.api.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,12 @@ public class PatientController {
     @GetMapping
     public List<DataPatientsListDTO> getAll(){
        return repository.findAll().stream().map(DataPatientsListDTO::new).toList();
+    }
+
+    @PutMapping
+    @Transactional
+    public void update(@RequestBody @Valid PatientUpdateData data){
+        var patient = repository.getReferenceById(data.id());
+        patient.updateInfo(data);
     }
 }
