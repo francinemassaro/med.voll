@@ -1,4 +1,4 @@
-package med.voll.api.controller.dto;
+package med.voll.api.controller.dto.doctor;
 
 import med.voll.api.domain.Doctor;
 import med.voll.api.domain.SpecialityEnum;

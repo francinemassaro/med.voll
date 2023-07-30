@@ -1,7 +1,8 @@
-package med.voll.api.controller.dto;
+package med.voll.api.controller.dto.doctor;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import med.voll.api.controller.dto.AddressDataDTO;
 import med.voll.api.domain.SpecialityEnum;
 
 public record DoctorRecordDataDTO(
