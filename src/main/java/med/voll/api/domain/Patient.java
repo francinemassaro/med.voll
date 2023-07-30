@@ -25,6 +25,7 @@ public class Patient {
     private String cpf;
     @Embedded
     private Address address;
+    private boolean active = true;
 
     public Patient(PatientRecordDataDTO data) {
         this.name = data.name();
@@ -46,5 +47,9 @@ public class Patient {
         if(data.address() != null) {
             this.address.updateAddress(data.address());
         }
+    }
+
+    public void delete() {
+        this.active=false;
     }
 }
