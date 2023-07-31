@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/doctors")
@@ -24,8 +25,14 @@ public class DoctorController {
 
     @PostMapping
     @Transactional
-    public void create(@RequestBody @Valid DoctorRecordDataDTO data) {
-        repository.save(new Doctor(data));
+    public ResponseEntity create(@RequestBody @Valid DoctorRecordDataDTO data, UriComponentsBuilder uriBuilder) {
+        var doctor = new Doctor(data);
+
+        repository.save(doctor);
+
+        var uri = uriBuilder.path("doctors/{id}").buildAndExpand(doctor.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new DataDoctorDetail(doctor));
     }
 
     @GetMapping
@@ -50,5 +57,13 @@ public class DoctorController {
         doctor.delete();
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    @Transactional
+    public ResponseEntity detail(@PathVariable Long id){
+        var doctor = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new DataDoctorDetail(doctor));
     }
 }
