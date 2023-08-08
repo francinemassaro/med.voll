@@ -4,7 +4,7 @@ import med.voll.api.domain.Address;
 import med.voll.api.domain.Doctor;
 import med.voll.api.domain.SpecialityEnum;
 
-public record DataDoctorDetail(
+public record DataDoctorDetailDto(
         Long id,
         String name,
         String email,
@@ -13,7 +13,7 @@ public record DataDoctorDetail(
         SpecialityEnum speciality,
         Address address
 ) {
-    public DataDoctorDetail(Doctor doctor) {
+    public DataDoctorDetailDto(Doctor doctor) {
         this(doctor.getId(), doctor.getName(), doctor.getEmail(), doctor.getPhone(), doctor.getCrm(),
                 doctor.getSpeciality(),doctor.getAddress());
     }
