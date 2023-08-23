@@ -6,10 +6,6 @@ Trello: https://trello.com/invite/b/flvDwvEJ/ATTI8ccf724026b01d58482d77470c1f00e
 
 
 
-
-
-###### Caso venha a ter algum problema com o flyway, como por exemplo, rodar o projeto antes de atualizar uma
-###### versão, use os seguintes comandos no mysql:
+###### Caso venha a ter algum problema com o flyway, como por exemplo, rodar o projeto antes de atualizar uma versão, use os seguintes comandos no mysql:
 ###### delete from flyway_schema_history where success = 0;
-
 ###### drop database vollmed_api;
