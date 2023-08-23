@@ -1,7 +1,7 @@
 package med.voll.api.controller;
 
 import jakarta.validation.Valid;
-import med.voll.api.controller.dto.doctor.DataDoctorDetail;
+import med.voll.api.controller.dto.doctor.DataDoctorDetailDto;
 import med.voll.api.controller.dto.doctor.DataDoctorsListDTO;
 import med.voll.api.controller.dto.doctor.DoctorRecordDataDTO;
 import med.voll.api.controller.dto.doctor.DoctorUpdateDataDTO;
@@ -32,7 +32,7 @@ public class DoctorController {
 
         var uri = uriBuilder.path("doctors/{id}").buildAndExpand(doctor.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DataDoctorDetail(doctor));
+        return ResponseEntity.created(uri).body(new DataDoctorDetailDto(doctor));
     }
 
     @GetMapping
@@ -47,7 +47,7 @@ public class DoctorController {
         var doctor = repository.getReferenceById(data.id());
         doctor.updateInfos(data);
 
-        return ResponseEntity.ok(new DataDoctorDetail(doctor));
+        return ResponseEntity.ok(new DataDoctorDetailDto(doctor));
     }
 
     @DeleteMapping("/{id}")
@@ -64,6 +64,6 @@ public class DoctorController {
     public ResponseEntity detail(@PathVariable Long id){
         var doctor = repository.getReferenceById(id);
 
-        return ResponseEntity.ok(new DataDoctorDetail(doctor));
+        return ResponseEntity.ok(new DataDoctorDetailDto(doctor));
     }
 }
