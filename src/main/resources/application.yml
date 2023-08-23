@@ -5,3 +5,6 @@ spring:
     username: root
     password: senha
 
+server:
+  error:
+    include-stacktrace: never
