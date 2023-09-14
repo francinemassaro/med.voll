@@ -4,9 +4,12 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import med.voll.api.repository.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +21,9 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UserRepository repository;
+
     private static final Logger log = LogManager.getLogger(SecurityFilter.class);
 
     @Override
@@ -25,20 +31,28 @@ public class SecurityFilter extends OncePerRequestFilter {
         log.info("filtro");
         var tokenJtw = recoverToken(request);
 
-        log.info("iniciando check se o token está válido");
-        var subject = tokenService.getSubject(tokenJtw);
+        if (tokenJtw != null) {
+            log.info("iniciando check se o token está válido");
+            var subject = tokenService.getSubject(tokenJtw);
+            var user = repository.findByLogin(subject);
 
+            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        //agora para funcionar o retorno de algum dos gets, precisa alterar a ordem do filtro.
         filterChain.doFilter(request, response);
     }
 
     private String recoverToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-
-        if(authorizationHeader == null) {
-            throw new RuntimeException("Token não enviado no cabeçalho authorization!");
+        log.info(authorizationHeader);
+        if(authorizationHeader != null) {
+            log.info("recuperando token");
+            return authorizationHeader.replace("Bearer ", "");
         }
 
-        return authorizationHeader.replace("Bearer", "");
+        return null;
     }
 }
