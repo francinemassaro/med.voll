@@ -34,6 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (tokenJtw != null) {
             log.info("iniciando check se o token está válido");
             var subject = tokenService.getSubject(tokenJtw);
+            log.info("token válido");
             var user = repository.findByLogin(subject);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -41,13 +42,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        //agora para funcionar o retorno de algum dos gets, precisa alterar a ordem do filtro.
+        //agora para funcionar o retorno de algum dos gets, precisa alterar a ordem do filtro. (parado em 7 min do
+        // vídeo 10)
         filterChain.doFilter(request, response);
     }
 
     private String recoverToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-        log.info(authorizationHeader);
         if(authorizationHeader != null) {
             log.info("recuperando token");
             return authorizationHeader.replace("Bearer ", "");
