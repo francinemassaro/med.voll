@@ -32,16 +32,19 @@ public class AppointmentSchedulingService {
 
     public DataDetailAppointmentDto schedule(DataAppointmentSchedulingDto data) {
         if (!patientRepository.existsById(data.patientId())) {
-            throw new ValidationException("Id do paciente informado não existe");
+            throw new ValidationException("Id do paciente informado não existe!");
         }
         if (data.doctorId() != null && !doctorRepository.existsById(data.doctorId())) {
-            throw new ValidationException("Id do medico informado não existe");
+            throw new ValidationException("Id do medico informado não existe!");
         }
 
         validators.forEach(v -> v.validate(data));
 
         var patient = patientRepository.findById(data.patientId()).get();
         var doctor = chooseDoctor(data);
+        if (doctor == null){
+            throw new ValidationException("Não existe médico disponível nessa data!");
+        }
         var appointment = new Appointment(null, doctor, patient, data.date());
         appointmentRepository.save(appointment);
 
@@ -54,7 +57,7 @@ public class AppointmentSchedulingService {
         }
 
         if (data.speciality() == null) {
-            throw new ValidationException("Especialidade é obrigatória, quando o médico não for escolhido");
+            throw new ValidationException("Especialidade é obrigatória, quando o médico não for escolhido!");
         }
 
         return doctorRepository.chooseRandomDoctorFreeOnTheDate(data.speciality(), data.date());
