@@ -2,10 +2,12 @@ package med.voll.api.service.scheduling.validations;
 
 import med.voll.api.controller.dto.appointment.DataAppointmentSchedulingDto;
 import med.voll.api.infra.exception.ValidationException;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
-public class ClinicalOperatingHoursValidator {
+@Component
+public class ClinicalOperatingHoursValidator implements ValidatorSchedulingUseCase {
 
     public void validate(DataAppointmentSchedulingDto data) {
         var appointmentDate = data.date();

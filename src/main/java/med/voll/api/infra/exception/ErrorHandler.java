@@ -22,7 +22,10 @@ public class ErrorHandler {
         return ResponseEntity.badRequest().body(errors.stream().map(DataErrorsValitation::new).toList());
     }
 
-
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity errorHandlerBusinessRule(ValidationException exception) {
+        return ResponseEntity.badRequest().body(exception.getMessage());
+    }
 
     private record DataErrorsValitation(
             String field,

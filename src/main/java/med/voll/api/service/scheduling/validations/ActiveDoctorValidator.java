@@ -3,9 +3,13 @@ package med.voll.api.service.scheduling.validations;
 import med.voll.api.controller.dto.appointment.DataAppointmentSchedulingDto;
 import med.voll.api.infra.exception.ValidationException;
 import med.voll.api.repository.DoctorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class ActiveDoctorValidator {
+@Component
+public class ActiveDoctorValidator implements ValidatorSchedulingUseCase{
 
+    @Autowired
     private DoctorRepository repository;
 
     public void validate(DataAppointmentSchedulingDto data){

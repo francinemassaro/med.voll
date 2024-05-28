@@ -2,11 +2,13 @@ package med.voll.api.service.scheduling.validations;
 
 import med.voll.api.controller.dto.appointment.DataAppointmentSchedulingDto;
 import med.voll.api.infra.exception.ValidationException;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class AdvanceTimeValidator {
+@Component
+public class AdvanceTimeValidator implements ValidatorSchedulingUseCase {
 
     public void validate(DataAppointmentSchedulingDto data){
         var consultDate = data.date();

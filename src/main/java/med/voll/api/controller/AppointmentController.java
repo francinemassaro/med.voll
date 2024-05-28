@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("appointments")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -23,8 +23,8 @@ public class AppointmentController {
     @Transactional
     public ResponseEntity schedule(@RequestBody @Valid DataAppointmentSchedulingDto data) {
         System.out.println(data);
-        appointmentService.schedule(data);
-        return ResponseEntity.ok(new DataDetailAppointmentDto(null, null, null, null));
+        var dto = appointmentService.schedule(data);
+        return ResponseEntity.ok(dto);
     }
 }
 
